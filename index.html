@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shape Arena - DOM Игра</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Shape Arena</h1>
+            <p class="subtitle">Създавай, избирай и управлявай фигури с мишка и клавиатура</p>
+        </header>
+        
+        <div class="game-area">
+            <div class="control-panel">
+                <h2 class="section-title">Създаване на фигури</h2>
+                <div class="buttons-grid">
+                    <button class="btn btn-create" id="createCube">Кубче</button>
+                    <button class="btn btn-create" id="createCircle">Кръгче</button>
+                    <button class="btn btn-create" id="createTriangle">Триъгълник</button>
+                    <button class="btn btn-create" id="createHexagon">Шестоъгълник</button>
+                    <button class="btn btn-create" id="createStar">Звезда</button>
+                    <button class="btn btn-create" id="createRandom">Случайна фигура</button>
+                </div>
+                
+                <h2 class="section-title">Действия с избрана фигура</h2>
+                <div class="buttons-grid">
+                    <button class="btn btn-action" id="changeColor">Промени цвят</button>
+                    <button class="btn btn-action" id="increaseSize">Увеличи</button>
+                    <button class="btn btn-action" id="decreaseSize">Намали</button>
+                    <button class="btn btn-action" id="addPoints">Добави точки</button>
+                    <button class="btn btn-action" id="explode">Експлодирай</button>
+                    <button class="btn btn-action" id="removeShape">Премахни</button>
+                </div>
+                
+                <div class="info-panel">
+                    <h2 class="section-title">Информация</h2>
+                    <div class="stats">
+                        <div>
+                            <div>Фокусирана фигура:</div>
+                            <div id="selectedShapeInfo">Няма избрана фигура</div>
+                        </div>
+                        <div>
+                            <div>Общо фигури:</div>
+                            <div id="totalShapes">0</div>
+                        </div>
+                    </div>
+                    <div class="score-display">
+                        Точки: <span id="score">0</span>
+                    </div>
+                </div>
+                
+                <div class="key-controls">
+                    <h3 class="section-title">Управление с клавиатура</h3>
+                    <div class="key-row">
+                        <div class="key">W</div>
+                    </div>
+                    <div class="key-row">
+                        <div class="key">A</div>
+                        <div class="key">S</div>
+                        <div class="key">D</div>
+                    </div>
+                    <p style="margin-top: 10px;">Използвайте WASD за движение на избраната фигура</p>
+                </div>
+            </div>
+            
+            <div class="arena" id="arena">
+                <div id="shapesContainer"></div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Инструкции за играта:</h3>
+            <ul>
+                <li>Кликнете на бутон, за да създадете фигура в арената</li>
+                <li>Кликнете върху фигура, за да я изберете (тя ще светне в розово)</li>
+                <li>Движете избраната фигура с мишката чрез drag & drop</li>
+                <li>Използвайте бутоните WASD на клавиатурата, за да движите избраната фигура</li>
+                <li>Кликнете на бутон от секцията "Действия", за да изпълните действие върху избраната фигура</li>
+                <li>Събирайте точки като кликате върху фигури и ги експлодирате</li>
+            </ul>
+            <p style="margin-top: 10px; font-weight: bold; color: #4cc9f0;">
+                Играта използва 8+ DOM евента: click, dblclick, mousedown, mousemove, mouseup, keydown, contextmenu, animationend
+            </p>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
