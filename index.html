@@ -3,90 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shape Arena - DOM Игра</title>
+    <title>DOM Minesweeper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Shape Arena</h1>
-            <p class="subtitle">Създавай, избирай и управлявай фигури с мишка и клавиатура</p>
+            <h1><i class="fas fa-bomb"></i> DOM Minesweeper</h1>
+            <p class="subtitle">Класическа игра с миночистач, изградена изцяло с DOM и DOM Events</p>
         </header>
-        
-        <div class="game-area">
-            <div class="control-panel">
-                <h2 class="section-title">Създаване на фигури</h2>
-                <div class="buttons-grid">
-                    <button class="btn btn-create" id="createCube">Кубче</button>
-                    <button class="btn btn-create" id="createCircle">Кръгче</button>
-                    <button class="btn btn-create" id="createTriangle">Триъгълник</button>
-                    <button class="btn btn-create" id="createHexagon">Шестоъгълник</button>
-                    <button class="btn btn-create" id="createStar">Звезда</button>
-                    <button class="btn btn-create" id="createRandom">Случайна фигура</button>
-                </div>
-                
-                <h2 class="section-title">Действия с избрана фигура</h2>
-                <div class="buttons-grid">
-                    <button class="btn btn-action" id="changeColor">Промени цвят</button>
-                    <button class="btn btn-action" id="increaseSize">Увеличи</button>
-                    <button class="btn btn-action" id="decreaseSize">Намали</button>
-                    <button class="btn btn-action" id="addPoints">Добави точки</button>
-                    <button class="btn btn-action" id="explode">Експлодирай</button>
-                    <button class="btn btn-action" id="removeShape">Премахни</button>
-                </div>
-                
-                <div class="info-panel">
-                    <h2 class="section-title">Информация</h2>
-                    <div class="stats">
-                        <div>
-                            <div>Фокусирана фигура:</div>
-                            <div id="selectedShapeInfo">Няма избрана фигура</div>
-                        </div>
-                        <div>
-                            <div>Общо фигури:</div>
-                            <div id="totalShapes">0</div>
-                        </div>
-                    </div>
-                    <div class="score-display">
-                        Точки: <span id="score">0</span>
-                    </div>
-                </div>
-                
-                <div class="key-controls">
-                    <h3 class="section-title">Управление с клавиатура</h3>
-                    <div class="key-row">
-                        <div class="key">W</div>
-                    </div>
-                    <div class="key-row">
-                        <div class="key">A</div>
-                        <div class="key">S</div>
-                        <div class="key">D</div>
-                    </div>
-                    <p style="margin-top: 10px;">Използвайте WASD за движение на избраната фигура</p>
-                </div>
+
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">Оставащи мини</div>
+                <div id="mines-count" class="info-value">10</div>
             </div>
-            
-            <div class="arena" id="arena">
-                <div id="shapesContainer"></div>
+            <div class="info-item">
+                <div class="info-label">Време</div>
+                <div id="timer" class="info-value">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Режим</div>
+                <div id="game-mode" class="info-value">Игра</div>
             </div>
         </div>
-        
+
+        <div class="game-status" id="game-status"></div>
+
+        <div class="controls">
+            <button id="new-game-btn">
+                <i class="fas fa-play"></i> Нова игра
+            </button>
+            <button id="change-difficulty-btn">
+                <i class="fas fa-sliders-h"></i> Промени трудност
+            </button>
+            <button id="hint-btn">
+                <i class="fas fa-lightbulb"></i> Подсказка
+            </button>
+            <button id="cheat-btn">
+                <i class="fas fa-eye"></i> Покажи мини
+            </button>
+        </div>
+
+        <div class="game-container">
+            <div class="game-board" id="game-board"></div>
+        </div>
+
         <div class="instructions">
-            <h3>Инструкции за играта:</h3>
+            <h3>Как да играеш:</h3>
             <ul>
-                <li>Кликнете на бутон, за да създадете фигура в арената</li>
-                <li>Кликнете върху фигура, за да я изберете (тя ще светне в розово)</li>
-                <li>Движете избраната фигура с мишката чрез drag & drop</li>
-                <li>Използвайте бутоните WASD на клавиатурата, за да движите избраната фигура</li>
-                <li>Кликнете на бутон от секцията "Действия", за да изпълните действие върху избраната фигура</li>
-                <li>Събирайте точки като кликате върху фигури и ги експлодирате</li>
+                <li><strong>Ляв клик</strong> - Разкриване на клетка</li>
+                <li><strong>Десен клик / Ctrl+клик</strong> - Поставяне/премахване на флаг</li>
+                <li><strong>Двойно кликване</strong> - Разкриване на всички околни клетки (ако има достатъчно флагове)</li>
+                <li><strong>Клавиши със стрелки</strong> - Движение между клетки</li>
+                <li><strong>Enter / Space</strong> - Разкриване на избраната клетка</li>
+                <li><strong>F</strong> - Поставяне/премахване на флаг на избраната клетка</li>
             </ul>
-            <p style="margin-top: 10px; font-weight: bold; color: #4cc9f0;">
-                Играта използва 8+ DOM евента: click, dblclick, mousedown, mousemove, mouseup, keydown, contextmenu, animationend
-            </p>
+            
+            <h3>Използвани DOM Events:</h3>
+            <div class="event-list" id="event-list">
+            </div>
         </div>
+
+        <footer>
+            <p>Проект по "Интерактивна браузърна игра с DOM и DOM Events" | Създадено с чист JavaScript</p>
+        </footer>
     </div>
 
-    <script src="game.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
